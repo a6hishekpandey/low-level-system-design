@@ -75,4 +75,35 @@ class Dog extends Animal {
 
 ## 🧠 SOLID Principles
 
+**S - Single Responsibilty Principle**
+A class should have only one reason to change, meaning it should only have one responsibilty.
+
+Example: A User class should only handle user-related logic, while database related operations should be handled by a separate UserRepository class. 
+
+```java
+class Invoice {
+    private double amount;
+
+    Invoice(double amount) {
+        this.amount = amount;
+    }
+
+    public void createInvoice() {
+        System.out.println("Invoice create for amount " + this.amount);
+    }
+}
+
+class InvoiceRepository {
+    public void saveToDatabase() {
+        System.out.println("Saving invoice to database.");
+    }
+}
+
+class EmailService {
+    public void sendNotification() {
+        System.out.println("Invoice has been created successfully");
+    }
+}
+```
+
 ---
