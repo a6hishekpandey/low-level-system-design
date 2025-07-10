@@ -89,7 +89,7 @@ class Invoice {
     }
 
     public void createInvoice() {
-        System.out.println("Invoice create for amount " + this.amount +".");
+        System.out.println("Invoice create for amount " + this.amount + ".");
     }
 }
 
