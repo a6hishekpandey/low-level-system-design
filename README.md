@@ -89,7 +89,7 @@ class Invoice {
     }
 
     public void createInvoice() {
-        System.out.println("Invoice create for amount " + this.amount);
+        System.out.println("Invoice create for amount " + this.amount +".");
     }
 }
 
@@ -101,7 +101,7 @@ class InvoiceRepository {
 
 class EmailService {
     public void sendNotification() {
-        System.out.println("Invoice has been created successfully");
+        System.out.println("Invoice notification.");
     }
 }
 ```
