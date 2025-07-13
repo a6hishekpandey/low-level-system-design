@@ -236,4 +236,61 @@ public class Main {
 }
 ```
 
+**I - Interface Segregation Principle**  
+The Interface Segregation Principle ensures that classes are not burdened with methods that they don't need. It promotes better design by breaking large, general-purpose interfaces into smaller, more specific ones.  
+
+Bad code:
+```java
+interface Worker {
+    void work();
+    void eat();
+}
+
+class HumanWorker implements Worker {
+    public void work() {
+        System.out.println("Human is working");
+    }
+
+    public void eat() {
+        System.out.println("Human is eating");
+    }
+}
+
+class RobotWorker implements Worker {
+    public void work() {
+        System.out.println("Robot is working");
+    }
+
+    public void eat() {
+        throw new UnsupportedOperationException("Robots don't eat");
+    }
+}
+```
+
+Good code:
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class HumanWorker implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human is working");
+    }
+
+    public void eat() {
+        System.out.println("Human is eating");
+    }
+}
+
+class RobotWorker implements Workable {
+    public void work() {
+        System.out.println("Robot is working");
+    }
+}
+```
 ---
