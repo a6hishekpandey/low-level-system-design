@@ -106,4 +106,134 @@ class EmailService {
 }
 ```
 
+**O - Open/Close Principle**  
+Software entities (classes, functions, modules) should be open for extension but cloased for modification.  
+
+Example: Adding new functionality to a system using inheritance or composition without modifying existing code.
+
+Bad code:
+```java
+public class PaymentProcessor {
+    public void pay(String type) {
+        if (type.equals("creditcard")) {
+            System.out.println("Paid with Credit Card");
+        } else if (type.equals("paypal")) {
+            System.out.println("Paid with PayPal");
+        } else if (type.equals("upi")) {
+            System.out.println("Paid with UPI");
+        }
+    }
+}
+```
+
+Good code:
+```java
+public interface PaymentMethod {
+    void pay(double amount);
+}
+
+public class CreditCardPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using Credit Card");
+    }
+}
+
+public class UPIPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using UPI");
+    }
+}
+
+public class PaymentProcessor {
+    public void processPayment(PaymentMethod method, double amount) {
+        method.pay(amount);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentProcessor processor = new PaymentProcessor();
+        PaymentMethod upi = new UPIPayment();
+
+        processor.processPayment(upi, 300.0);
+    }
+}
+```
+
+**L - Liskov Substitution Principle**  
+The Liskov Substitution Principle (LSP) states that objects of a superclass should be replaceable with objects of a subclass without altering the correctness of the program. It ensures that a subclass can stand in for its parent class and function correctly in any context that expects the parent class.  
+
+No client should be forced to depend methods it doesn't use. Split large interfaces into smaller, more specific ones.
+
+Bad code:
+```java
+class Bird {
+    public void fly() {
+        System.out.println("Bird is flying");
+    }
+}
+
+class Sparrow extends Bird {
+    @Override
+    public void fly() {
+        System.out.println("Sparrow is flying");
+    }
+}
+
+class Penguin extends Bird {
+    @Override
+    public void fly() {
+        throw new UnsupportedOperationException("Penguins can't fly");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Bird sparrow = new Sparrow();
+        Bird penguin = new Penguin();
+
+        sparrow.fly();  // OK
+        penguin.fly();  // ❌ Violates LSP — throws exception
+    }
+}
+```
+
+Good code:
+```java
+class Bird {
+    public void layEggs() {
+        System.out.println("Bird is laying eggs");
+    }
+}
+
+class FlyingBird extends Bird {
+    public void fly() {
+        System.out.println("Flying bird is flying");
+    }
+}
+
+class Sparrow extends FlyingBird {
+    @Override
+    public void fly() {
+        System.out.println("Sparrow is flying");
+    }
+}
+
+class Penguin extends Bird {
+    public void swim() {
+        System.out.println("Penguin is swimming");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        FlyingBird sparrow = new Sparrow();
+        Bird penguin = new Penguin();
+
+        sparrow.fly(); // ✅ OK
+        penguin.fly(); // ❌ Compile-time error — avoids LSP violation
+    }
+}
+```
+
 ---
