@@ -293,4 +293,60 @@ class RobotWorker implements Workable {
     }
 }
 ```
+
+**D - Dependency Inversion Principle**  
+High-level modules should not depend on low-level modules; both should depend on abstraction.  
+
+Bad code:
+```java
+class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Sending email: " + message);
+    }
+}
+
+class NotificationManager {
+    private EmailService emailService;
+
+    public NotificationManager() {
+        this.emailService = new EmailService(); // tightly coupled
+    }
+
+    public void send(String message) {
+        emailService.sendEmail(message);
+    }
+}
+```
+
+Good code:
+```java
+interface NotificationService {
+    void send(String message);
+}
+
+class EmailService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Sending email: " + message);
+    }
+}
+
+class SMSService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Sending SMS: " + message);
+    }
+}
+
+class NotificationManager {
+    private NotificationService service;
+
+    public NotificationManager(NotificationService service) {
+        this.service = service; // depends on abstraction
+    }
+
+    public void notifyUser(String message) {
+        service.send(message);
+    }
+}
+```
+
 ---
