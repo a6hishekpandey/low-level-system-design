@@ -350,3 +350,63 @@ class NotificationManager {
 ```
 
 ---
+
+## 🧠 Design Patterns
+
+**Memento**  
+Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
+
+```java
+public class TextEditor {
+    private String content;
+    
+    public void write(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public TextEditorMemento save() {
+        return new TextEditorMemento(this.content);
+    }
+
+    public void restore(TextEditorMemento editorMemento) {
+        this.content = editorMemento.getContent();
+    }
+}
+
+public class TextEditorMemento {
+    private final String content;
+    
+    public TextEditorMemento(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+}
+
+public class Caretaker {
+    private Stack<TextEditorMemento> history;
+
+    public Caretaker() {
+        this.history = new Stack<>();
+    }
+
+    public void saveState(TextEditor editor) {
+        history.push(editor.saveState());
+    }
+
+    public void undo(TextEditor editor) {
+        if(!history.empty()) {
+            history.pop();
+            editor.restore(history.peek());
+        }
+    }
+}
+```
+
+---
