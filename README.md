@@ -397,7 +397,7 @@ public class Caretaker {
     }
 
     public void saveState(TextEditor editor) {
-        history.push(editor.saveState());
+        history.push(editor.save());
     }
 
     public void undo(TextEditor editor) {
