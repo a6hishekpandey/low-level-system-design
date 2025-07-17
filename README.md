@@ -409,4 +409,67 @@ public class Caretaker {
 }
 ```
 
+**Observer**  
+Observer is a behavioral design pattern that lets you define a subscription mechanism to notify multiple objects about any events that happen to the object they’re observing.   
+
+```java
+public class WeatherStation {
+    private double temperature;
+    private List<Observer> observers;
+    
+    public WeatherStation() {
+        this.observers = new ArrayList<>();
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+        notifyObservers();
+    }
+
+    public void attach(Observer obs) {
+        this.observers.add(obs);
+    }
+
+    public void detach(Observer obs) {
+        this.observers.remove(obs);
+    }
+
+    private void notifyObservers() {
+        for(Observer obs: this.observers) {
+            obs.update(this.temperature);
+        }
+    }
+}
+
+interface Observer {
+    public void update(double temperature);
+}
+
+class Mobile implements Observer {
+    private String name;
+
+    public Mobile(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(double temperature) {
+        System.out.println("Temperature on " + this.name + " is " + temperature);
+    }
+} 
+
+class LCDScreen implements Observer {
+    private String name;
+
+    public LCDScreen(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(double temperature) {
+        System.out.println("Temperature on " + this.name + " is " + temperature);
+    }
+}
+```
+
 ---
