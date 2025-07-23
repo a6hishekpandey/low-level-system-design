@@ -515,6 +515,70 @@ public class Main {
 }
 ```
 
----
+**Command**  
+Command is a behavioral design pattern that turns a request into a standalone object. This object contains all the information about the request: what action to perform, when to perform it, and which object it acts upon.   
 
+```java
+public class TextEditor {
+    public void boldText() {
+        System.out.println("BOLD");
+    }
+
+    public void italicText() {
+        System.out.println("ITALIC");
+    }
+}
+
+public interface Command {
+    void execute();
+}
+
+public class BoldCommand implements Command {
+    TextEditor editor;
+
+    public BoldCommand(TextEditor editor) {
+        this.editor = editor;
+    }
+
+    public void execute() {
+        this.editor.boldText();
+    }
+}
+
+public class ItalicCommand implements Command {
+    TextEditor editor;
+
+    public ItalicCommand(TextEditor editor) {
+        this.editor = editor;
+    }
+
+    public void execute() {
+        this.editor.italicText();
+    }
+}
+
+class Button {
+    private Command command;
+
+    public Button(Command command) {
+        this.command = command;
+    }
+
+    public void click() {
+        this.command.execute();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TextEditor editor = new TextEditor();
+        Command boldCommand = new BoldCommand(editor);
+        Button button = new Button(boldCommand);
+        
+        button.click();
+    }
+}
+```
+
+---
 ---
