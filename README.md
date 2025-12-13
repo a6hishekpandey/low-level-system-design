@@ -353,62 +353,6 @@ class NotificationManager {
 
 ## 🧠 Design Patterns
 
-**Memento**  
-Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
-
-```java
-public class TextEditor {
-    private String content;
-    
-    public void write(String content) {
-        this.content = content;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public TextEditorMemento save() {
-        return new TextEditorMemento(this.content);
-    }
-
-    public void restore(TextEditorMemento editorMemento) {
-        this.content = editorMemento.getContent();
-    }
-}
-
-public class TextEditorMemento {
-    private final String content;
-    
-    public TextEditorMemento(String content) {
-        this.content = content;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-}
-
-public class Caretaker {
-    private Stack<TextEditorMemento> history;
-
-    public Caretaker() {
-        this.history = new Stack<>();
-    }
-
-    public void saveState(TextEditor editor) {
-        history.push(editor.save());
-    }
-
-    public void undo(TextEditor editor) {
-        if(!history.empty()) {
-            history.pop();
-            editor.restore(history.peek());
-        }
-    }
-}
-```
-
 **Observer**  
 Observer is a behavioral design pattern that lets you define a subscription mechanism to notify multiple objects about any events that happen to the object they’re observing.   
 
@@ -472,45 +416,58 @@ class LCDScreen implements Observer {
 }
 ```
 
-**Strategy**  
-Strategy is a behavioral design pattern that lets you define a set of interchangeable algorithms (strategies), put each of them into a separate class, and allows the client to choose which algorithm to use at runtime.   
+**Memento**  
+Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
 ```java
-public interface PaymentMethod {
-    void pay(double amount);
-}
+public class TextEditor {
+    private String content;
+    
+    public void write(String content) {
+        this.content = content;
+    }
 
-public class CreditCardPayment implements PaymentMethod {
-    public void pay(double amount) {
-        System.out.println("Paid ₹" + amount + " using Credit Card");
+    public String getContent() {
+        return this.content;
+    }
+
+    public TextEditorMemento save() {
+        return new TextEditorMemento(this.content);
+    }
+
+    public void restore(TextEditorMemento editorMemento) {
+        this.content = editorMemento.getContent();
     }
 }
 
-public class UPIPayment implements PaymentMethod {
-    public void pay(double amount) {
-        System.out.println("Paid ₹" + amount + " using UPI");
+public class TextEditorMemento {
+    private final String content;
+    
+    public TextEditorMemento(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return this.content;
     }
 }
 
-public class PaymentProcessor {
-    private PaymentMethod method;
+public class Caretaker {
+    private Stack<TextEditorMemento> history;
 
-    public setPaymentMethod(PaymentMethod method) {
-        this.method = method;
+    public Caretaker() {
+        this.history = new Stack<>();
     }
 
-    public void processPayment(double amount) {
-        this.method.pay(amount);
+    public void saveState(TextEditor editor) {
+        history.push(editor.save());
     }
-}
 
-public class Main {
-    public static void main(String[] args) {
-        PaymentProcessor processor = new PaymentProcessor();
-        PaymentMethod upi = new UPIPayment();
-
-        processor.setPaymentMethod(upi);
-        processor.processPayment(300.0);
+    public void undo(TextEditor editor) {
+        if(!history.empty()) {
+            history.pop();
+            editor.restore(history.peek());
+        }
     }
 }
 ```
