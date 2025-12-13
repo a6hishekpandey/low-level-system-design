@@ -353,6 +353,42 @@ class NotificationManager {
 
 ## 🧠 Design Patterns
 
+**Strategy**  
+Strategy is a behavioral design pattern that lets you define a set of interchangeable algorithms (strategies), put each of them into a separate class, and allows the client to choose which algorithm to use at runtime. 
+
+```java
+public interface PaymentMethod {
+    void pay(double amount);
+}
+public class CreditCardPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using Credit Card");
+    }
+}
+public class UPIPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using UPI");
+    }
+}
+public class PaymentProcessor {
+    private PaymentMethod method;
+    public setPaymentMethod(PaymentMethod method) {
+        this.method = method;
+    }
+    public void processPayment(double amount) {
+        this.method.pay(amount);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        PaymentProcessor processor = new PaymentProcessor();
+        PaymentMethod upi = new UPIPayment();
+        processor.setPaymentMethod(upi);
+        processor.processPayment(300.0);
+    }
+}
+```
+
 **Observer**  
 Observer is a behavioral design pattern that lets you define a subscription mechanism to notify multiple objects about any events that happen to the object they’re observing.   
 
