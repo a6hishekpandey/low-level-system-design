@@ -360,25 +360,31 @@ Strategy is a behavioral design pattern that lets you define a set of interchang
 public interface PaymentMethod {
     void pay(double amount);
 }
+
 public class CreditCardPayment implements PaymentMethod {
     public void pay(double amount) {
         System.out.println("Paid ₹" + amount + " using Credit Card");
     }
 }
+
 public class UPIPayment implements PaymentMethod {
     public void pay(double amount) {
         System.out.println("Paid ₹" + amount + " using UPI");
     }
 }
+
 public class PaymentProcessor {
     private PaymentMethod method;
+
     public setPaymentMethod(PaymentMethod method) {
         this.method = method;
     }
+
     public void processPayment(double amount) {
         this.method.pay(amount);
     }
 }
+
 public class Main {
     public static void main(String[] args) {
         PaymentProcessor processor = new PaymentProcessor();
