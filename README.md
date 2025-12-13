@@ -357,40 +357,71 @@ class NotificationManager {
 Strategy is a behavioral design pattern that lets you define a set of interchangeable algorithms (strategies), put each of them into a separate class, and allows the client to choose which algorithm to use at runtime. 
 
 ```java
-public interface PaymentMethod {
-    void pay(double amount);
+public interface QuackBehavior {
+    void quack();
 }
 
-public class CreditCardPayment implements PaymentMethod {
-    public void pay(double amount) {
-        System.out.println("Paid ₹" + amount + " using Credit Card");
+public class Quack implements QuackBehavior {
+    public void quack() {
+        System.out.println("Quack!");
     }
 }
 
-public class UPIPayment implements PaymentMethod {
-    public void pay(double amount) {
-        System.out.println("Paid ₹" + amount + " using UPI");
+public class Squeak implements QuackBehavior {
+    public void quack() {
+        System.out.println("Squeak!");
     }
 }
 
-public class PaymentProcessor {
-    private PaymentMethod method;
+public abstract class Duck {
+    protected QuackBehavior quackBehavior;
 
-    public setPaymentMethod(PaymentMethod method) {
-        this.method = method;
+    public Duck() {}
+
+    public abstract void display();
+
+    public void performQuack() {
+        quackBehavior.quack();
     }
 
-    public void processPayment(double amount) {
-        this.method.pay(amount);
+    public void swim() {
+        System.out.println("All ducks float, even decoys!");
+    }
+
+    // Runtime behavior change
+    public void setQuackBehavior(QuackBehavior qb) {
+        quackBehavior = qb;
+    }
+}
+
+public class MallardDuck extends Duck {
+    public MallardDuck(QuackBehavior qb) {
+        quackBehavior = qb;
+    }
+
+    @Override
+    public void display() {
+        System.out.println("I'm a real Mallard duck");
+    }
+}
+
+public class RubberDuck extends Duck {
+    public RubberDuck(QuackBehavior qb) {
+        quackBehavior = qb;
+    }
+
+    @Override
+    public void display() {
+        System.out.println("I'm a real Rubber duck");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        PaymentProcessor processor = new PaymentProcessor();
-        PaymentMethod upi = new UPIPayment();
-        processor.setPaymentMethod(upi);
-        processor.processPayment(300.0);
+        Duck mallard = new MallardDuck(new Quack());        
+        mallard.performQuack(); // Quack!
+        mallard.setQuackBehavior(new Squeak());
+        mallard.performQuack(); // Squeak!
     }
 }
 ```
