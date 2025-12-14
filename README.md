@@ -539,7 +539,6 @@ public class Main {
                     new Coffee()
                 )
             );
-        
         System.out.println(drink.cost()); // 160
     }
 }
