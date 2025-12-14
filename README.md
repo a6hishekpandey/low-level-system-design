@@ -489,6 +489,62 @@ class LCDScreen implements Observer {
 }
 ```
 
+**Decorator**  
+Decorator is a structural design pattern that lets you attach new behaviors to objects by placing these objects inside special wrapper objects that contain the behaviors.   
+
+```java
+abstract class Beverage {
+    public abstract double cost();
+}
+
+class Coffee extends Beverage {
+    public double cost() {
+        return 100;
+    }
+}
+
+abstract class AddinDecorator extends Beverage {
+    protected Beverage beverage;
+
+    public AddinDecorator(Beverage beverage) {
+        this.beverage = beverage;
+    }
+}
+
+class Milk extends AddinDecorator {
+    public Milk(Beverage beverage) {
+        super(beverage);
+    }
+
+    public double cost() {
+        return beverage.cost() + 20;
+    }
+}
+
+class Mocha extends AddinDecorator {
+    public Mocha(Beverage beverage) {
+        super(beverage);
+    }
+
+    public double cost() {
+        return beverage.cost() + 40;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Beverage drink =
+            new Mocha(
+                new Milk(
+                    new Coffee()
+                )
+            );
+        
+        System.out.println(drink.cost()); // 160
+    }
+}
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
