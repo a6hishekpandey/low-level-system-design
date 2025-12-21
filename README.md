@@ -1,8 +1,8 @@
-# 📘 Low Level System Design
+# Low Level System Design
 
 ---
 
-## ⚙️ Types of Relationships in LLD
+## Types of Relationships in LLD
 
 **Association (Generic has-a relationship):**  
 When one class uses or is connected to another. No ownership. (UML Symbol: Solid line)
@@ -73,7 +73,7 @@ class Dog extends Animal {
 
 ---
 
-## 🧠 SOLID Principles
+## SOLID Principles
 
 **S - Single Responsibilty Principle**  
 A class should have only one reason to change, meaning it should only have one responsibilty.  
@@ -193,7 +193,7 @@ public class Main {
         Bird penguin = new Penguin();
 
         sparrow.fly();  // OK
-        penguin.fly();  // ❌ Violates LSP — throws exception
+        penguin.fly();  // Violates LSP — throws exception
     }
 }
 ```
@@ -230,8 +230,8 @@ public class Main {
         FlyingBird sparrow = new Sparrow();
         Bird penguin = new Penguin();
 
-        sparrow.fly(); // ✅ OK
-        penguin.fly(); // ❌ Compile-time error — avoids LSP violation
+        sparrow.fly(); // OK
+        penguin.fly(); // Compile-time error — avoids LSP violation
     }
 }
 ```
@@ -351,7 +351,7 @@ class NotificationManager {
 
 ---
 
-## 🧠 Design Patterns
+## Design Patterns
 
 **Strategy**  
 Strategy is a behavioral design pattern that lets you define a set of interchangeable algorithms (strategies), put each of them into a separate class, and allows the client to choose which algorithm to use at runtime. 
