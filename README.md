@@ -544,6 +544,114 @@ public class Main {
 }
 ```
 
+**Factory Method**
+Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.  
+
+```java
+abstract class Pizza {
+    String name;
+
+    void prepare() {
+        System.out.println("Preparing " + name);
+    }
+
+    void bake() {
+        System.out.println("Baking " + name);
+    }
+
+    void cut() {
+        System.out.println("Cutting " + name);
+    }
+
+    void box() {
+        System.out.println("Boxing " + name);
+    }
+
+    String getName() {
+        return name;
+    }
+}
+
+abstract class PizzaStore {
+    public Pizza orderPizza(String type) {
+        Pizza pizza = createPizza(type);
+
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+
+        return pizza;
+    }
+
+    // FACTORY METHOD
+    protected abstract Pizza createPizza(String type);
+}
+
+class NYStyleCheesePizza extends Pizza {
+    public NYStyleCheesePizza() {
+        name = "NY Style Cheese Pizza";
+    }
+}
+
+class NYStylePepperoniPizza extends Pizza {
+    public NYStylePepperoniPizza() {
+        name = "NY Style Pepperoni Pizza";
+    }
+}
+
+class NYPizzaStore extends PizzaStore {
+
+    @Override
+    protected Pizza createPizza(String type) {
+        if (type.equals("cheese")) {
+            return new NYStyleCheesePizza();
+        } else if (type.equals("pepperoni")) {
+            return new NYStylePepperoniPizza();
+        }
+        return null;
+    }
+}
+
+class ChicagoStyleCheesePizza extends Pizza {
+    public ChicagoStyleCheesePizza() {
+        name = "Chicago Style Cheese Pizza";
+    }
+
+    @Override
+    void cut() {
+        System.out.println("Cutting the pizza into square slices");
+    }
+}
+
+class ChicagoPizzaStore extends PizzaStore {
+
+    @Override
+    protected Pizza createPizza(String type) {
+        if (type.equals("cheese")) {
+            return new ChicagoStyleCheesePizza();
+        }
+        return null;
+    }
+}
+
+public class PizzaTestDrive {
+    public static void main(String[] args) {
+
+        PizzaStore nyStore = new NYPizzaStore();
+        PizzaStore chicagoStore = new ChicagoPizzaStore();
+
+        Pizza pizza = nyStore.orderPizza("cheese");
+        System.out.println("Ordered a " + pizza.getName());
+
+        System.out.println();
+
+        pizza = chicagoStore.orderPizza("cheese");
+        System.out.println("Ordered a " + pizza.getName());
+    }
+}
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
