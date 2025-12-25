@@ -617,6 +617,29 @@ public class Main {
 
 ```
 
+**Singleton**  
+Singleton is a creational design pattern that lets you ensure that a class has only one instance, while providing a global access point to this instance.  
+
+```java
+public class Logger {
+    private static Logger singleton;
+    private Logger() {
+        // constructor code goes here
+    }
+
+    public static Logger getLogger() {
+        if(singleton == null) {
+            singleton = new Logger();
+        }
+        return singleton;
+    }
+
+    public void log() {
+        System.out.println("Logging...");
+    }
+}
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
