@@ -581,6 +581,42 @@ public class PizzaTestDrive {
 }
 ```
 
+**Abstract Factory**  
+Abstract Factory is a creational design pattern that lets you produce families of related objects without specifying their concrete classes.  
+
+```java
+abstract class IngredientFactory {
+    Dough getDough();
+    Sauce getSauce();
+    // more abstract methods
+}
+
+class NewyorkPizzaIngredientFactory extends IngredientFactory {
+    public Dough getDough() {
+        return new ThinCrustDough();
+    }
+
+    public Sauce getSauce() {
+        return new PlumTomatoSauce();
+    }
+}
+
+interface Sauce { }
+interface Dough { }
+
+public class ThinCrustDough implements Dough { }
+public class PlumTomatoSauce implements Sauce { }
+
+public class Main {
+    public static void main(String[] args) {
+        IngredientFactory ingredientFactory = new NewyorkPizzaIngredientFactory();
+        Dough dough = ingredientFactory.getDough(); // Newyork centric dough
+        Sauce sauce = ingredientFactory.getSauce(); // Newyork centric sauce
+    }
+}
+
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
