@@ -649,6 +649,81 @@ public class Main {
 }
 ```
 
+**Command**  
+Command is a behavioral design pattern that turns a request into a standalone object. This object contains all the information about the request: what action to perform, when to perform it, and which object it acts upon.   
+
+```java
+public class Light {
+    public void on() {
+        System.out.println("Light is on");
+    }
+
+    public void off() {
+        System.out.println("Light is off");
+    }
+}
+
+public interface Command {
+    void execute();
+}
+
+public class LightOnCommand implements Command {
+    Light light;
+
+    public LightOnCommand(Light light) {
+        this.light = light;
+    }
+
+    public void execute() {
+        this.light.on();
+    }
+}
+
+public class LightOffCommand implements Command {
+    Light light;
+
+    public LightOffCommand(Light light) {
+        this.light = light;
+    }
+
+    public void execute() {
+        this.light.off();
+    }
+}
+
+class Remote {
+    private Command[] commands;
+
+    public Remote() {
+        this.commands = new Command[1][2];
+    }
+
+    public void setCommands(int index, Command onCommand, Command offCommand) {
+        this.commands[index][0] = onCommand;
+        this.commands[index][1] = offCommand;
+    }
+
+    public void on(int index) {
+        this.commands[index][0].execute();
+    }
+
+    public void off(int index) {
+        this.commands[index][1].execute();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Light light = new Light();
+        Command lightOnCommand = new LightOnCommand(light);
+        Command lightOffCommand = new LightOffCommand(light);
+        Remote remote = new Remote();
+        remote.setCommands(0, lightOnCommand, lightOffCommand);
+        remote.on(1); // Light is on
+    }
+}
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
@@ -701,71 +776,6 @@ public class Caretaker {
             history.pop();
             editor.restore(history.peek());
         }
-    }
-}
-```
-
-**Command**  
-Command is a behavioral design pattern that turns a request into a standalone object. This object contains all the information about the request: what action to perform, when to perform it, and which object it acts upon.   
-
-```java
-public class TextEditor {
-    public void boldText() {
-        System.out.println("BOLD");
-    }
-
-    public void italicText() {
-        System.out.println("ITALIC");
-    }
-}
-
-public interface Command {
-    void execute();
-}
-
-public class BoldCommand implements Command {
-    TextEditor editor;
-
-    public BoldCommand(TextEditor editor) {
-        this.editor = editor;
-    }
-
-    public void execute() {
-        this.editor.boldText();
-    }
-}
-
-public class ItalicCommand implements Command {
-    TextEditor editor;
-
-    public ItalicCommand(TextEditor editor) {
-        this.editor = editor;
-    }
-
-    public void execute() {
-        this.editor.italicText();
-    }
-}
-
-class Button {
-    private Command command;
-
-    public Button(Command command) {
-        this.command = command;
-    }
-
-    public void click() {
-        this.command.execute();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        TextEditor editor = new TextEditor();
-        Command boldCommand = new BoldCommand(editor);
-        Button button = new Button(boldCommand);
-        
-        button.click();
     }
 }
 ```
