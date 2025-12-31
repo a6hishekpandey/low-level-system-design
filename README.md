@@ -724,6 +724,67 @@ public class Main {
 }
 ```
 
+**Adaptor** 
+Adapter is a structural design pattern that allows objects with incompatible interfaces to collaborate.  
+
+```java
+public interface Duck {
+    void quack();
+    void fly();
+}
+
+public interface Turkey {
+    void gobble();
+    void fly();
+}
+
+public class MallardDuck implements Duck {
+    public void quack() {
+        System.out.println("Quack quack!");
+    }
+
+    public void fly() {
+        System.out.println("Flying long distance...");
+    }
+}
+
+public class WildTurkey implements Turkey {
+    public void gobble() {
+        System.out.println("Gobble gobble!");
+    }
+
+    public void fly() {
+        System.out.println("Flying short distance...");
+    }
+}
+
+public class TurkeyAdapter implements Duck {
+    private Turkey turkey;
+
+    public TurkeyAdapter(Turkey turkey) {
+        this.turkey = turkey;
+    }
+
+    public void quack() {
+        this.turkey.gobble();
+    }
+
+    public void fly() {
+        this.turkey.fly();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Turkey wildTurkey = new WildTurkey();
+        Duck duck = new TurkeyAdapter(wildTurkey);
+        duck.quack(); // Gobble gobble!
+        duck.fly(); // Flying short distance...
+    }
+}
+
+```
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
