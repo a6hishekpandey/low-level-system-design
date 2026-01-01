@@ -785,6 +785,140 @@ public class Main {
 
 ```
 
+**Facade**  
+Provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.  
+
+```java
+public interface Light {
+    void on();
+    void off();
+    void dim(int level);
+}
+
+public class NormalLight implements Light {
+    public void on() {
+        System.out.println("Lights are on");
+    }
+
+    public void off() {
+        System.out.println("Lights are off");
+    }
+
+    public void dim(int level) {
+        System.out.println("Diming light to " + level + " %");
+    }
+}
+
+public interface SoundSystem {
+    void on();
+    void off();
+    void setVolume(int level);
+}
+
+public class NormalSoundSystem implements SoundSystem {
+    public void on() {
+        System.out.println("Sound System: turned on");
+    }
+
+    public void off() {
+        System.out.println("Sound System: turned off");
+    }
+
+    public void setVolume(int level) {
+        System.out.println("Sound System: volumne set to " + level);
+    }
+}
+
+public interface Projector {
+    void on();
+    void off();
+    void setInput();
+}
+
+public class NormalProjector implements Projector {
+    public void on() {
+        System.out.println("Projector: turned on");
+    }
+
+    public void off() {
+        System.out.println("Projector: turned off");
+    }
+
+    public void setInput() {
+        System.out.println("Projector: input set to DVD");
+    }
+}
+
+public interface DVDPlayer {
+    void play();
+    void pause();
+    void stop();
+}
+
+public class NormalDVDPlayer implements DVDPlayer {
+    public void play() {
+        System.out.println("DVDPlayer: playing the movie");
+    }
+
+    public void pause() {
+        System.out.println("DVDPlayer: paused the movie");
+    }
+
+    public void stop() {
+        System.out.println("DVDPlayer: stopped the movie");
+    }
+}
+
+public class HomeTheaterFacase {
+    private DVDPlayer dvdPlayer;
+    private Projector projector;
+    private SoundSystem soundSystem;
+    private Light light;
+
+    public HomeTheaterFacase(DVDPlayer dvdPlayer, Projector projector, SoundSystem soundSystem, Light light) {
+        this.dvdPlayer = dvdPlayer;
+        this.projector = projector;
+        this.soundSystem = soundSystem;
+        this.light = light;
+    }
+
+    public void watchMovie(int dimmingPercentage, int volumeLevel) {
+        System.out.println("Get ready to watch a movie");
+        this.light.dim(dimmingPercentage);
+        this.projector.on();
+        this.projector.setInput();
+        this.soundSystem.on();
+        this.soundSystem.setVolume(volumeLevel);
+        this.dvdPlayer.play();
+    }
+
+    public void endMovie(int dimmingPercentage, int volumeLevel) {
+        System.out.println("The end");
+        this.light.dim(dimmingPercentage);
+        this.projector.off();
+        this.soundSystem.setVolume(volumeLevel);
+        this.soundSystem.off();
+        this.dvdPlayer.stop();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DVDPlayer dvdPlayer = new NormalDVDPlayer();
+        Projector projector = new NormalProjector();
+        SoundSystem soundSystem = new NormalSoundSystem();
+        Light light = new NormalLight();
+
+        HomeTheaterFacase homeTheater = new HomeTheaterFacase(dvdPlayer, projector, soundSystem, light);
+
+        homeTheater.watchMovie(90, 80);
+        homeTheater.endMovie(0, 0);
+    }
+}
+
+```
+
+
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
 
