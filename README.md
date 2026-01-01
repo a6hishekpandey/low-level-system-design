@@ -918,6 +918,52 @@ public class Main {
 
 ```
 
+**Template Method**  
+Template Method is a behavioral design pattern that defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps of the algorithm without changing its structure.    
+
+```java
+abstract class BaseParser {
+    public void open() {
+        System.out.println("OPEN");
+    }
+
+    public void close() {
+        System.out.println("CLOSE");
+    }
+
+    public abstract void parseData();
+
+    public void parse() {
+        open();
+        parseData();
+        close();
+    }
+}
+
+class CSVParser extends BaseParser {
+    @override
+    public void parseData() {
+        System.out.println("PARSING CSV");
+    }
+}
+
+class XMLParser extends BaseParser {
+    @override
+    public void parseData() {
+        System.out.println("PARSING XML");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BaseParser csvParser = new CSVParser();
+        BaseParser xmlParser = new XMLParser();
+
+        csvParser.parse();
+        xmlParser.parse();
+    }
+}
+```
 
 **Memento**  
 Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
@@ -971,53 +1017,6 @@ public class Caretaker {
             history.pop();
             editor.restore(history.peek());
         }
-    }
-}
-```
-
-**Template Method**  
-Template Method is a behavioral design pattern that defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps of the algorithm without changing its structure.    
-
-```java
-abstract class BaseParser {
-    public void open() {
-        System.out.println("OPEN");
-    }
-
-    public void close() {
-        System.out.println("CLOSE");
-    }
-
-    public abstract void parseData();
-
-    public void parse() {
-        open();
-        parseData();
-        close();
-    }
-}
-
-class CSVParser extends BaseParser {
-    @override
-    public void parseData() {
-        System.out.println("PARSING CSV");
-    }
-}
-
-class XMLParser extends BaseParser {
-    @override
-    public void parseData() {
-        System.out.println("PARSING XML");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        BaseParser csvParser = new CSVParser();
-        BaseParser xmlParser = new XMLParser();
-
-        csvParser.parse();
-        xmlParser.parse();
     }
 }
 ```
