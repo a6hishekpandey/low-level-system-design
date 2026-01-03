@@ -1034,7 +1034,7 @@ public class DinerMenuIterator implements Iterator {
 
 public class Main {
     public static void main(String[] args) {
-        Menu dinerMenu = new DinerMenu(menu);
+        Menu dinerMenu = new DinerMenu();
         dinerMenu.addItem("Cake", 100);
         dinerMenu.addItem("Chocolate", 10);
 
