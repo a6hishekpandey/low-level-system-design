@@ -965,60 +965,86 @@ public class Main {
 }
 ```
 
-**Memento**  
-Memento is a behavioral design pattern that lets you save and restore the previous state of an object without revealing the details of its implementation.  
+**Iterator**  
+Iterator pattern provides a way to access the elements of an aggregate objects sequentially without exposing it's underlying representation.  
 
 ```java
-public class TextEditor {
-    private String content;
-    
-    public void write(String content) {
-        this.content = content;
+public class MenuItem {
+    private String name;
+    private int price;
+
+    public MenuItem(String name, int price) {
+        this.name = name;
+        this.price = price;
     }
 
-    public String getContent() {
-        return this.content;
+    public void toString() {
+        System.out.println("{ name: " + this.name + ", " + "price: " + this.price + " }");
+    }
+} 
+
+public interface Iterator {
+    boolean hasNext();
+    MenuItem next();
+}
+
+public interface Menu {
+    Iterator createIterator();
+}
+
+public class DinerMenu implements Menu {
+    List<MenuItem> menu;
+
+    public DinerMenu() {
+        this.menu = new ArrayList<>();
     }
 
-    public TextEditorMemento save() {
-        return new TextEditorMemento(this.content);
+    public void addItem(String itemName, int itemPrice) {
+        this.menu.add(new MenuItem(itemName, itemPrice));
     }
 
-    public void restore(TextEditorMemento editorMemento) {
-        this.content = editorMemento.getContent();
+    public Iterator createIterator() {
+        return new DinerMenuIterator(this.menu);
     }
 }
 
-public class TextEditorMemento {
-    private final String content;
-    
-    public TextEditorMemento(String content) {
-        this.content = content;
+public class DinerMenuIterator implements Iterator {
+    List<MenuItem> menu;
+    private int index;
+
+    public DinerMenuIterator(List<MenuItem> menu) {
+        this.menu = menu;
+        this.index = 0;
     }
 
-    public String getContent() {
-        return this.content;
+    public boolean hasNext() {
+        if(index < menu.size()) {
+            return true;
+        }
+        return false;
+    }
+
+    public MenuItem next() {
+        if(index < menu.size()) {
+            return menu.get(index++);
+        }
+        return null;
     }
 }
 
-public class Caretaker {
-    private Stack<TextEditorMemento> history;
+public class Main {
+    public static void main(String[] args) {
+        Menu dinerMenu = new DinerMenu(menu);
+        dinerMenu.addItem("Cake", 100);
+        dinerMenu.addItem("Chocolate", 10);
 
-    public Caretaker() {
-        this.history = new Stack<>();
-    }
-
-    public void saveState(TextEditor editor) {
-        history.push(editor.save());
-    }
-
-    public void undo(TextEditor editor) {
-        if(!history.empty()) {
-            history.pop();
-            editor.restore(history.peek());
+        Iterator dinerMenuIterator = dinerMenu.createIterator();
+        while(dinerMenuIterator.hasNext()) {
+            System.out.println(dinerMenuIterator.next());
         }
     }
 }
+
 ```
 
 ---
